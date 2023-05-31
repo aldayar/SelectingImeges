@@ -5,14 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.selectingimeges.R
 import com.example.selectingimeges.databinding.FragmentFirstScreenBinding
 import selectingImages.adapter.ImageAdapter
 import selectingImages.model.ImageModel
 import selectingImages.ui.actitvity.MainActivity.Companion.selectedList
+import selectingImages.ui.actitvity.App
 
 class FirstScreenFragment : Fragment() {
 
@@ -20,7 +20,7 @@ class FirstScreenFragment : Fragment() {
     private lateinit var adapter: ImageAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentFirstScreenBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -30,12 +30,11 @@ class FirstScreenFragment : Fragment() {
 
 
             binding.itemBtnNextScr.setOnClickListener{
-                val scndScreenFragent= SecondScreenFragment()
-                val bundle = Bundle()
-                bundle.putIntegerArrayList("key", ArrayList(selectedList))
-                scndScreenFragent.arguments = bundle
-
-            Navigation.findNavController(view).navigate(R.id.secondScreenFragment)
+                for (selectedImageId in selectedList) {
+                    val imageModel = ImageModel(selectedImageId)
+                    App.db.getNoteDao().addImage(imageModel)
+                }
+            findNavController().navigate(R.id.secondScreenFragment)
 
         }
 
@@ -47,11 +46,12 @@ class FirstScreenFragment : Fragment() {
 
     }
 
-    private fun creatingImg(): List<ImageModel>{
+    private fun creatingImg(): List<ImageModel> {
         val imgList = mutableListOf<ImageModel>()
         imgList.add(ImageModel(R.drawable.img))
         imgList.add(ImageModel(R.drawable.img_2))
         imgList.add(ImageModel(R.drawable.img_3))
         return imgList
     }
+
 }

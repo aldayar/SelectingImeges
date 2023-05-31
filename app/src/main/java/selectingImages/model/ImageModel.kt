@@ -1,4 +1,11 @@
 package selectingImages.model
 
-data class ImageModel(val itemImage:Int) {
-}
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+    @Entity
+    data class ImageModel(
+        @PrimaryKey(autoGenerate = true)
+
+        val itemImage:Int) {
+    }

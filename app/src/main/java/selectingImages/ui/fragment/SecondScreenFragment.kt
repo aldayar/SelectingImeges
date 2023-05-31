@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.selectingimeges.R
 import com.example.selectingimeges.databinding.FragmentSecondScreenBinding
 import selectingImages.adapter.ImageAdapter
-import selectingImages.model.ImageModel
+import selectingImages.ui.actitvity.App
 import selectingImages.ui.actitvity.MainActivity.Companion.selectedModeList
 
 class SecondScreenFragment : Fragment() {
@@ -27,7 +27,7 @@ class SecondScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val selectedImgs = arguments?.getIntegerArrayList("key")
+        App.db.getNoteDao().getAllNote()
 
         val recycler = binding.recyclerView
         recycler.layoutManager = LinearLayoutManager(requireContext())
